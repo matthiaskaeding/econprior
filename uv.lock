@@ -235,12 +235,13 @@ wheels = [
 ]
 
 [[package]]
-name = "econpriors"
+name = "econlit"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "httpx" },
     { name = "polars" },
+    { name = "pytest" },
     { name = "tqdm" },
 ]
 
@@ -259,6 +260,7 @@ dev = [
 requires-dist = [
     { name = "httpx", specifier = ">=0.28.1" },
     { name = "polars", specifier = ">=1.36.1" },
+    { name = "pytest", specifier = ">=9.0.2" },
     { name = "tqdm", specifier = ">=4.67.1" },
 ]
 

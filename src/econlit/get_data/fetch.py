@@ -1,8 +1,8 @@
 import sqlite3
 
-from econpriors.get_data import db
-from econpriors.get_data.apis import crossref, openalex
-from econpriors.get_data.journals import get_issn, get_name
+from econlit.get_data import db
+from econlit.get_data.apis import crossref, openalex
+from econlit.get_data.journals import get_issn, get_name
 
 
 def fetch_journal_year(
