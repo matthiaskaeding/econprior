@@ -60,7 +60,7 @@ def main() -> None:
     ]
 
     total = 0
-    remaining = args.max_articles
+    remaining: int | None = args.max_articles
     for journal, year in tqdm(tasks, desc=f"Fetching from {args.source}"):
         count = fetch_journal_year(
             journal, year, args.source, conn, max_articles=remaining

@@ -26,6 +26,14 @@ Econpriors is a tool for generating priors for parameters of econometric models,
   * ...
   ```
 
+## Quick Start (for Claude web or testing)
+
+To quickly get sample data to work with:
+```bash
+just download --max-articles 10
+just stats
+```
+
 ## Code Style
 
 - Always use absolute imports.
