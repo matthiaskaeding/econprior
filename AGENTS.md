@@ -9,6 +9,9 @@ Econpriors is a tool for generating priors for parameters of econometric models,
 ## Commands
 
 - `just ok` - Run formatting (ruff) and type checking (ty). Run before committing.
+- `just test` - Run tests.
+- `just download` - Download articles from top 5 econ journals. Use `--max-articles 10` for quick testing.
+- `just stats` - Show database statistics.
 - Use `uv` to run scripts (e.g., `uv run script.py`).
 
 ## Workflow

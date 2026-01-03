@@ -42,6 +42,12 @@ def main() -> None:
         help="Journals to fetch",
     )
     parser.add_argument("--db", type=str, default="articles.db", help="Database path")
+    parser.add_argument(
+        "--max-articles",
+        type=int,
+        default=None,
+        help="Maximum total articles to fetch (for quick testing)",
+    )
     args = parser.parse_args()
 
     conn = db.get_connection(args.db)
@@ -54,9 +60,16 @@ def main() -> None:
     ]
 
     total = 0
+    remaining = args.max_articles
     for journal, year in tqdm(tasks, desc=f"Fetching from {args.source}"):
-        count = fetch_journal_year(journal, year, args.source, conn)
+        count = fetch_journal_year(
+            journal, year, args.source, conn, max_articles=remaining
+        )
         total += count
+        if remaining is not None:
+            remaining -= count
+            if remaining <= 0:
+                break
 
     print(f"\nTotal: {total} new articles added")
     conn.close()
