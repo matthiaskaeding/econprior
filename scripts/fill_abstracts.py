@@ -28,7 +28,9 @@ def main() -> None:
     parser.add_argument(
         "--db", type=str, default="data/articles.db", help="Database path"
     )
-    args = parser.parse_args()
+    args, unknown = parser.parse_known_args()
+    if unknown:
+        print(f"Ignoring unsupported arguments for fill: {unknown}")
 
     db_path = Path(args.db).expanduser().resolve()
     conn = db.get_connection(db_path)
