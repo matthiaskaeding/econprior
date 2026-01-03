@@ -2,6 +2,7 @@
 # requires-python = ">=3.11"
 # dependencies = [
 #     "httpx",
+#     "tqdm",
 #     "econpriors",
 # ]
 #
@@ -11,6 +12,8 @@
 """Download articles from top economics journals."""
 
 import argparse
+
+from tqdm import tqdm
 
 from econpriors.get_data import db
 from econpriors.get_data.fetch import fetch_journal_year
@@ -44,13 +47,16 @@ def main() -> None:
     conn = db.get_connection(args.db)
     db.init_db(conn)
 
+    tasks = [
+        (journal, year)
+        for journal in args.journals
+        for year in range(args.start_year, args.end_year + 1)
+    ]
+
     total = 0
-    for journal in args.journals:
-        for year in range(args.start_year, args.end_year + 1):
-            print(f"Fetching {journal} {year} from {args.source}...")
-            count = fetch_journal_year(journal, year, args.source, conn)
-            print(f"  Added {count} new articles")
-            total += count
+    for journal, year in tqdm(tasks, desc=f"Fetching from {args.source}"):
+        count = fetch_journal_year(journal, year, args.source, conn)
+        total += count
 
     print(f"\nTotal: {total} new articles added")
     conn.close()
