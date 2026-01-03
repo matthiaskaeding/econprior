@@ -20,8 +20,14 @@ CREATE INDEX IF NOT EXISTS idx_doi ON articles(doi);
 """
 
 
-def get_connection(db_path: str | Path = "articles.db") -> sqlite3.Connection:
-    conn = sqlite3.connect(db_path)
+DEFAULT_DB_PATH = Path("data") / "articles.db"
+
+
+def get_connection(db_path: str | Path = DEFAULT_DB_PATH) -> sqlite3.Connection:
+    path = Path(db_path).expanduser().resolve()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    conn = sqlite3.connect(path, timeout=30.0)
+    conn.execute("PRAGMA busy_timeout = 30000")
     conn.row_factory = sqlite3.Row
     return conn
 

@@ -12,6 +12,7 @@
 """Download articles from top economics journals."""
 
 import argparse
+from pathlib import Path
 
 from tqdm import tqdm
 
@@ -41,10 +42,13 @@ def main() -> None:
         default=list(JOURNALS.keys()),
         help="Journals to fetch",
     )
-    parser.add_argument("--db", type=str, default="articles.db", help="Database path")
+    parser.add_argument(
+        "--db", type=str, default="data/articles.db", help="Database path"
+    )
     args = parser.parse_args()
 
-    conn = db.get_connection(args.db)
+    db_path = Path(args.db).expanduser().resolve()
+    conn = db.get_connection(db_path)
     db.init_db(conn)
 
     tasks = [
