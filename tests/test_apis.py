@@ -1,4 +1,4 @@
-from econpriors.get_data.apis import crossref, openalex
+from econlit.get_data.apis import crossref, openalex
 
 
 def test_crossref_parse_article() -> None:

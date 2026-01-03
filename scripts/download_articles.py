@@ -3,11 +3,11 @@
 # dependencies = [
 #     "httpx",
 #     "tqdm",
-#     "econpriors",
+#     "econlit",
 # ]
 #
 # [tool.uv.sources]
-# econpriors = { path = "..", editable = true }
+# econlit = { path = "..", editable = true }
 # ///
 """Download articles from top economics journals."""
 
@@ -16,9 +16,9 @@ from pathlib import Path
 
 from tqdm import tqdm
 
-from econpriors.get_data import db
-from econpriors.get_data.fetch import fetch_journal_year
-from econpriors.get_data.journals import JOURNALS
+from econlit.get_data import db
+from econlit.get_data.fetch import fetch_journal_year
+from econlit.get_data.journals import JOURNALS
 
 
 def main() -> None:

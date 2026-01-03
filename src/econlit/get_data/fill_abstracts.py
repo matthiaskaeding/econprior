@@ -5,9 +5,9 @@ from typing import Any
 
 import httpx
 
-from econpriors.get_data.apis import openalex
+from econlit.get_data.apis import openalex
 
-MAILTO = "econpriors@example.com"
+MAILTO = "econlit@example.com"
 
 logger = logging.getLogger(__name__)
 

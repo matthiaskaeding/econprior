@@ -3,11 +3,11 @@
 # dependencies = [
 #     "httpx",
 #     "tqdm",
-#     "econpriors",
+#     "econlit",
 # ]
 #
 # [tool.uv.sources]
-# econpriors = { path = "..", editable = true }
+# econlit = { path = "..", editable = true }
 # ///
 """Fill missing abstracts from alternative sources."""
 
@@ -16,8 +16,8 @@ from pathlib import Path
 
 from tqdm import tqdm
 
-from econpriors.get_data import db
-from econpriors.get_data.fill_abstracts import (
+from econlit.get_data import db
+from econlit.get_data.fill_abstracts import (
     fill_missing_abstracts,
     get_articles_missing_abstract,
 )
