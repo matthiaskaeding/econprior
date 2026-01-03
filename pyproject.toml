@@ -19,6 +19,7 @@ dev = [
     "nbconvert>=7.16.6",
     "pip>=25.3",
     "pyarrow>=22.0.0",
+    "pytest>=9.0.2",
 ]
 
 [build-system]
