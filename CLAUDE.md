@@ -12,7 +12,8 @@ Econprior is a tool for generating priors for parameters of econometric models, 
 - `just test` - Run tests.
 - `just download` - Download articles from top 5 econ journals.
 - `just stats` - Show database statistics.
-- Use `uv` to run scripts (e.g., `uv run script.py`).
+- Use the packaged CLI for workflows: `uv run econprior --help`, `uv run econprior download -h`, `uv run econprior fill`, etc.
+- Run arbitrary scripts with `uv` (e.g., `uv run script.py`) when needed.
 
 ## Workflow
 

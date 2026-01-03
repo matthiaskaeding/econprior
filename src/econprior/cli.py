@@ -2,21 +2,18 @@
 
 from __future__ import annotations
 
-import itertools
 from pathlib import Path
-from typing import Literal, Optional
+from typing import Optional
 
 import polars as pl
 import typer
-from tqdm import tqdm
 
-from econprior.get_data import db
-from econprior.get_data.fetch import fetch_journal_year
-from econprior.get_data.fill_abstracts import (
-    fill_missing_abstracts,
-    get_articles_missing_abstract,
+from econprior.get_data.pipeline import (
+    SourceOption,
+    download_articles,
+    fill_missing_abstracts_pipeline,
+    load_articles_dataframe,
 )
-from econprior.get_data.journals import JOURNALS
 
 
 app = typer.Typer(
@@ -24,13 +21,6 @@ app = typer.Typer(
     no_args_is_help=True,
     context_settings={"help_option_names": ["-h", "--help"]},
 )
-
-
-def _resolve_db(path: Path) -> Path:
-    return path.expanduser().resolve()
-
-
-SourceOption = Literal["crossref", "openalex"]
 
 
 @app.command()
@@ -47,33 +37,20 @@ def download(
 ) -> None:
     """Download article metadata into the local SQLite database."""
 
-    if start_year > end_year:
-        raise typer.BadParameter("start-year must be <= end-year")
-
-    if journals:
-        selected_journals = [j.strip() for j in journals.split(",") if j.strip()]
-    else:
-        selected_journals = list(JOURNALS.keys())
-    missing = sorted(set(selected_journals) - set(JOURNALS.keys()))
-    if missing:
-        raise typer.BadParameter(f"Unknown journals: {', '.join(missing)}")
-
-    resolved_db = _resolve_db(db_path)
-    conn = db.get_connection(resolved_db)
-    db.init_db(conn)
+    selected_journals = (
+        [j.strip() for j in journals.split(",") if j.strip()] if journals else None
+    )
 
     try:
-        tasks = list(
-            itertools.product(selected_journals, range(start_year, end_year + 1))
+        total = download_articles(
+            start_year=start_year,
+            end_year=end_year,
+            source=source,
+            journals=selected_journals,
+            db_path=db_path,
         )
-        total = 0
-        with tqdm(tasks, desc=f"Fetching from {source}") as iterator:
-            for journal, year in iterator:
-                count = fetch_journal_year(journal, year, source, conn)
-                total += count
-                iterator.set_postfix({"journal": journal, "year": year})
-    finally:
-        conn.close()
+    except ValueError as exc:
+        raise typer.BadParameter(str(exc)) from exc
 
     typer.echo(f"Total: {total} new articles added")
 
@@ -86,33 +63,13 @@ def fill(
 ) -> None:
     """Fill missing abstracts using the opposite source."""
 
-    resolved_db = _resolve_db(db_path)
-    conn = db.get_connection(resolved_db)
+    missing, filled = fill_missing_abstracts_pipeline(db_path=db_path)
+    typer.echo(f"Found {missing} articles with missing abstracts")
 
-    try:
-        missing = get_articles_missing_abstract(conn)
-        typer.echo(f"Found {len(missing)} articles with missing abstracts")
+    if not missing:
+        return
 
-        if not missing:
-            return
-
-        with tqdm(total=len(missing), desc="Filling abstracts") as progress:
-
-            def on_progress(article: dict, target_source: str, success: bool) -> None:
-                progress.update()
-                progress.set_postfix(
-                    {
-                        "source": target_source,
-                        "status": "filled" if success else "miss",
-                    }
-                )
-
-            filled = fill_missing_abstracts(
-                conn, articles=missing, progress_callback=on_progress
-            )
-        typer.echo(f"Filled {filled} abstracts")
-    finally:
-        conn.close()
+    typer.echo(f"Filled {filled} abstracts")
 
 
 @app.command()
@@ -124,11 +81,11 @@ def stats(
 ) -> None:
     """Print summary statistics about the stored articles."""
 
-    resolved_db = _resolve_db(db_path)
+    resolved_db = db_path.expanduser().resolve()
     conn_uri = f"sqlite:///{resolved_db.as_posix()}"
     typer.echo(f"Reading articles from {conn_uri}")
 
-    df = pl.read_database_uri("SELECT * FROM articles", conn_uri)
+    df = load_articles_dataframe(resolved_db)
     typer.echo(f"Loaded {len(df)} articles")
 
     summary = pl.DataFrame(

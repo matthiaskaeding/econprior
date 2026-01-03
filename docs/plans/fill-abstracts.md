@@ -17,4 +17,4 @@ For articles with null abstracts, try to find the abstract from other sources.
 
 1. **notebooks/show_stats.py** (paired with `notebooks/show_stats.ipynb`) - Stats notebook conversion
 2. **src/econprior/get_data/fill_abstracts.py** - Logic to fill missing abstracts
-3. **src/econprior/pipeline/fill_abstracts.py** - CLI to run the fill process
+3. **src/econprior/get_data/pipeline.py** - Helpers to run the CLI fill process
