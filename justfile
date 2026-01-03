@@ -6,19 +6,22 @@ ok:
 
 # Run tests
 test:
-    uv run pytest
+    UV_CACHE_DIR=.uv-cache uv run pytest
 
 # Download articles
 download *ARGS:
-    uv run scripts/download_articles.py {{ARGS}}
+    UV_CACHE_DIR=.uv-cache uv run scripts/download_articles.py {{ARGS}}
 
 # Show database statistics
 stats:
-    uv run scripts/run_notebook.py notebooks/stats.ipynb
+    UV_CACHE_DIR=.uv-cache uv run python scripts/show_stats.py
+
+stats-sync:
+    UV_CACHE_DIR=.uv-cache uv run jupytext --sync scripts/show_stats.py
 
 # Fill missing abstracts from other sources
 fill *ARGS:
-    uv run scripts/fill_abstracts.py {{ARGS}}
+    UV_CACHE_DIR=.uv-cache uv run scripts/fill_abstracts.py {{ARGS}}
 
 # Copy CLAUDE.md to AGENTS.md
 agents:
