@@ -13,8 +13,12 @@ download *ARGS:
     uv run scripts/download_articles.py {{ARGS}}
 
 # Show database statistics
-stats *ARGS:
-    uv run scripts/show_stats.py {{ARGS}}
+stats:
+    uv run scripts/run_notebook.py notebooks/stats.ipynb
+
+# Fill missing abstracts from other sources
+fill *ARGS:
+    uv run scripts/fill_abstracts.py {{ARGS}}
 
 # Copy CLAUDE.md to AGENTS.md
 agents:
