@@ -10,20 +10,20 @@ test:
 
 # Download articles
 download *ARGS:
-    UV_CACHE_DIR=.uv-cache uv run scripts/download_articles.py {{ARGS}}
+    UV_CACHE_DIR=.uv-cache uv run python scripts/cli.py download {{ARGS}}
 
 # Fill missing abstracts from other sources
 fill *ARGS:
-    UV_CACHE_DIR=.uv-cache uv run scripts/fill_abstracts.py {{ARGS}}
+    UV_CACHE_DIR=.uv-cache uv run python scripts/cli.py fill {{ARGS}}
 
 # Download and fill in one step
 download-and-fill *ARGS:
-    just download {{ARGS}}
-    just fill {{ARGS}}
+    UV_CACHE_DIR=.uv-cache uv run python scripts/cli.py download {{ARGS}}
+    UV_CACHE_DIR=.uv-cache uv run python scripts/cli.py fill {{ARGS}}
 
 # Show database statistics
-stats:
-    UV_CACHE_DIR=.uv-cache uv run python scripts/show_stats.py
+stats *ARGS:
+    UV_CACHE_DIR=.uv-cache uv run python scripts/cli.py stats {{ARGS}}
 
 stats-sync:
     UV_CACHE_DIR=.uv-cache uv run jupytext --sync scripts/show_stats.py
