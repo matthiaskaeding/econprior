@@ -25,6 +25,10 @@ download-and-fill *ARGS:
 stats *ARGS:
     UV_CACHE_DIR=.uv-cache uv run python -m econprior.cli stats {{ARGS}}
 
+# Direct CLI passthrough
+tool *ARGS:
+    UV_CACHE_DIR=.uv-cache uv run econprior {{ARGS}}
+
 stats-sync:
     UV_CACHE_DIR=.uv-cache uv run jupytext --sync notebooks/show_stats.py
     UV_CACHE_DIR=.uv-cache uv run python -m jupyter nbconvert --to notebook --execute --inplace notebooks/show_stats.ipynb
