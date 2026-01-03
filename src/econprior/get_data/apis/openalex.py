@@ -10,7 +10,7 @@ def fetch_journal_works(
     year: int,
     per_page: int = 100,
     base_url: str = "https://api.openalex.org",
-    mailto: str = "econlit@example.com",
+    mailto: str = "econprior@example.com",
 ) -> Iterator[dict[str, Any]]:
     """Fetch all works from a journal for a given year."""
     url = f"{base_url}/works"

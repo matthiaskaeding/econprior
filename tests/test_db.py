@@ -1,6 +1,6 @@
 import sqlite3
 
-from econlit.get_data import db
+from econprior.get_data import db
 
 
 def test_init_db_creates_table() -> None:

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Econlit is a tool for generating priors for parameters of econometric models, such as elasticities.
+Econprior is a tool for generating priors for parameters of econometric models, such as elasticities.
 
 ## Commands
 
