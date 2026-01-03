@@ -6,7 +6,7 @@ ok:
 
 # Run tests
 test:
-    UV_CACHE_DIR=.uv-cache uv run --group dev pytest
+    UV_CACHE_DIR=.uv-cache uv run pytest
 
 # Download articles
 download *ARGS:
