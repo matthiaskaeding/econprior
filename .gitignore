@@ -37,4 +37,5 @@ htmlcov/
 # Project specific
 *.db
 .uv-cache/
+data/articles.db-journal
 notebooks/show_stats.ipynb

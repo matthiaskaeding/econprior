@@ -18,10 +18,8 @@ from tqdm import tqdm
 
 from econpriors.get_data import db
 from econpriors.get_data.fill_abstracts import (
-    fetch_abstract_from_crossref,
-    fetch_abstract_from_openalex,
+    fill_missing_abstracts,
     get_articles_missing_abstract,
-    update_abstract,
 )
 
 
@@ -38,21 +36,22 @@ def main() -> None:
     missing = get_articles_missing_abstract(conn)
     print(f"Found {len(missing)} articles with missing abstracts")
 
-    filled = 0
-    for article in tqdm(missing, desc="Filling abstracts"):
-        doi = article["doi"]
-        source = article["source"]
+    if not missing:
+        conn.close()
+        return
 
-        if source == "crossref":
-            abstract = fetch_abstract_from_openalex(doi)
-        else:
-            abstract = fetch_abstract_from_crossref(doi)
+    with tqdm(total=len(missing), desc="Filling abstracts") as progress:
 
-        if abstract:
-            update_abstract(conn, article["id"], abstract)
-            filled += 1
+        def on_progress(article: dict, target_source: str, success: bool) -> None:
+            progress.update()
+            progress.set_postfix(
+                {"source": target_source, "status": "filled" if success else "miss"}
+            )
 
-    conn.commit()
+        filled = fill_missing_abstracts(
+            conn, articles=missing, progress_callback=on_progress
+        )
+
     print(f"\nFilled {filled} abstracts")
     conn.close()
 

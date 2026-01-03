@@ -18,6 +18,7 @@ stats:
 
 stats-sync:
     UV_CACHE_DIR=.uv-cache uv run jupytext --sync scripts/show_stats.py
+    UV_CACHE_DIR=.uv-cache uv run python -m jupyter nbconvert --to notebook --execute --inplace notebooks/show_stats.ipynb
 
 # Fill missing abstracts from other sources
 fill *ARGS:
