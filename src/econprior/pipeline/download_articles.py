@@ -1,15 +1,6 @@
-# /// script
-# requires-python = ">=3.11"
-# dependencies = [
-#     "httpx",
-#     "tqdm",
-#     "econprior",
-# ]
-#
-# [tool.uv.sources]
-# econprior = { path = "..", editable = true }
-# ///
 """Download articles from top economics journals."""
+
+from __future__ import annotations
 
 import argparse
 from pathlib import Path
@@ -22,6 +13,8 @@ from econprior.get_data.journals import JOURNALS
 
 
 def main() -> None:
+    """CLI entry point for downloading article metadata."""
+
     parser = argparse.ArgumentParser(description="Download journal articles")
     parser.add_argument(
         "--start-year", type=int, default=2020, help="Start year (inclusive)"

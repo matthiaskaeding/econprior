@@ -1,15 +1,6 @@
-# /// script
-# requires-python = ">=3.11"
-# dependencies = [
-#     "httpx",
-#     "tqdm",
-#     "econprior",
-# ]
-#
-# [tool.uv.sources]
-# econprior = { path = "..", editable = true }
-# ///
 """Fill missing abstracts from alternative sources."""
+
+from __future__ import annotations
 
 import argparse
 from pathlib import Path
@@ -24,6 +15,8 @@ from econprior.get_data.fill_abstracts import (
 
 
 def main() -> None:
+    """CLI entry point for backfilling abstracts."""
+
     parser = argparse.ArgumentParser(description="Fill missing abstracts")
     parser.add_argument(
         "--db", type=str, default="data/articles.db", help="Database path"

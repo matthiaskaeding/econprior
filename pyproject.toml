@@ -12,6 +12,9 @@ dependencies = [
     "typer>=0.21.0",
 ]
 
+[project.scripts]
+econprior = "econprior.cli:main"
+
 [dependency-groups]
 dev = [
     "connectorx>=0.4.4",

@@ -10,23 +10,23 @@ test:
 
 # Download articles
 download *ARGS:
-    UV_CACHE_DIR=.uv-cache uv run python scripts/cli.py download {{ARGS}}
+    UV_CACHE_DIR=.uv-cache uv run python -m econprior.cli download {{ARGS}}
 
 # Fill missing abstracts from other sources
 fill *ARGS:
-    UV_CACHE_DIR=.uv-cache uv run python scripts/cli.py fill {{ARGS}}
+    UV_CACHE_DIR=.uv-cache uv run python -m econprior.cli fill {{ARGS}}
 
 # Download and fill in one step
 download-and-fill *ARGS:
-    UV_CACHE_DIR=.uv-cache uv run python scripts/cli.py download {{ARGS}}
-    UV_CACHE_DIR=.uv-cache uv run python scripts/cli.py fill {{ARGS}}
+    UV_CACHE_DIR=.uv-cache uv run python -m econprior.cli download {{ARGS}}
+    UV_CACHE_DIR=.uv-cache uv run python -m econprior.cli fill {{ARGS}}
 
 # Show database statistics
 stats *ARGS:
-    UV_CACHE_DIR=.uv-cache uv run python scripts/cli.py stats {{ARGS}}
+    UV_CACHE_DIR=.uv-cache uv run python -m econprior.cli stats {{ARGS}}
 
 stats-sync:
-    UV_CACHE_DIR=.uv-cache uv run jupytext --sync scripts/show_stats.py
+    UV_CACHE_DIR=.uv-cache uv run jupytext --sync notebooks/show_stats.py
     UV_CACHE_DIR=.uv-cache uv run python -m jupyter nbconvert --to notebook --execute --inplace notebooks/show_stats.ipynb
 
 # Copy CLAUDE.md to AGENTS.md

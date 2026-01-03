@@ -1,4 +1,4 @@
-"""Typer-based CLI for econpriors utility scripts."""
+"""Typer-based CLI for econprior utility scripts."""
 
 from __future__ import annotations
 
@@ -10,16 +10,20 @@ import polars as pl
 import typer
 from tqdm import tqdm
 
-from econpriors.get_data import db
-from econpriors.get_data.fetch import fetch_journal_year
-from econpriors.get_data.fill_abstracts import (
+from econprior.get_data import db
+from econprior.get_data.fetch import fetch_journal_year
+from econprior.get_data.fill_abstracts import (
     fill_missing_abstracts,
     get_articles_missing_abstract,
 )
-from econpriors.get_data.journals import JOURNALS
+from econprior.get_data.journals import JOURNALS
 
 
-app = typer.Typer(help="CLI entry point for econpriors scripting utilities.")
+app = typer.Typer(
+    help="CLI entry point for econprior scripting utilities.",
+    no_args_is_help=True,
+    context_settings={"help_option_names": ["-h", "--help"]},
+)
 
 
 def _resolve_db(path: Path) -> Path:
@@ -164,5 +168,11 @@ def stats(
     typer.echo(abstract_summary)
 
 
-if __name__ == "__main__":  # pragma: no cover - Typer handles execution
+def main() -> None:
+    """Entry point for console_scripts."""
+
     app()
+
+
+if __name__ == "__main__":  # pragma: no cover - Typer handles execution
+    main()

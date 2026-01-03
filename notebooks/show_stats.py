@@ -1,7 +1,7 @@
 # ---
 # jupyter:
 #   jupytext:
-#     formats: scripts//show_stats.py:percent,notebooks//show_stats.ipynb
+#     formats: notebooks//show_stats.py:percent,notebooks//show_stats.ipynb
 #     text_representation:
 #       extension: .py
 #       format_name: percent
