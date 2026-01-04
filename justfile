@@ -8,6 +8,10 @@ ok:
 test:
     UV_CACHE_DIR=.uv-cache uv run pytest
 
+# Install as global tool (makes 'ep' and 'econprior' commands available)
+install:
+    uv tool install --reinstall .
+
 # Download articles
 download *ARGS:
     UV_CACHE_DIR=.uv-cache uv run python -m econprior.cli download {{ARGS}}
