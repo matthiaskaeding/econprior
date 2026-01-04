@@ -10,10 +10,16 @@ Econprior is a tool for generating priors for parameters of econometric models, 
 
 - `just ok` - Run formatting (ruff) and type checking (ty). Run before committing.
 - `just test` - Run tests.
+- `just install` - Install as global tool (makes `ep` and `econprior` commands available).
 - `just download` - Download articles from top 5 econ journals.
 - `just stats` - Show database statistics.
 - Use the packaged CLI for workflows: `uv run econprior --help`, `uv run econprior download -h`, `uv run econprior fill`, etc.
 - Run arbitrary scripts with `uv` (e.g., `uv run script.py`) when needed.
+- **IMPORTANT**: Use `uv run <command>` directly, NOT `uv run python -m` or `uv run -m`. Examples:
+  - ✅ `uv run econprior download`
+  - ✅ `uv run jupyter nbconvert`
+  - ❌ `uv run python -m econprior.cli download`
+  - ❌ `uv run -m econprior.cli download`
 
 ## Workflow
 
@@ -34,3 +40,4 @@ Sample data with synthetic abstracts is available in `data/sample.csv` for quick
 ## Code Style
 
 - Always use absolute imports.
+- When using `uv run`, call commands directly (e.g., `uv run econprior`), NOT `uv run python -m` or `uv run -m`.
