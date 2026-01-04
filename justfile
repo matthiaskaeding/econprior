@@ -35,7 +35,7 @@ tool *ARGS:
 
 stats-sync:
     UV_CACHE_DIR=.uv-cache uv run jupytext --sync notebooks/show_stats.py
-    UV_CACHE_DIR=.uv-cache uv run jupyter nbconvert --to notebook --execute --inplace notebooks/show_stats.ipynb
+    UV_CACHE_DIR=.uv-cache uvx jupyter nbconvert --to notebook --execute --inplace notebooks/show_stats.ipynb
 
 # Copy CLAUDE.md to AGENTS.md
 agents:
