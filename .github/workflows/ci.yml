@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  pull_request:
+    branches: ["*"]
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    name: Test Installation and CLI
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install 3.11
+
+      - name: Run tests
+        run: uv run pytest
+
+      - name: Run formatting and type checks
+        run: |
+          uv run ruff format --check
+          uv run ruff check
+          uv run ty check
+
+      - name: Install as global tool
+        run: uv tool install .
+
+      - name: Test econprior command is available
+        run: |
+          if ! command -v econprior &> /dev/null; then
+            echo "Error: econprior command not found in PATH"
+            exit 1
+          fi
+          echo "✓ econprior command found"
+
+      - name: Test ep command is available
+        run: |
+          if ! command -v ep &> /dev/null; then
+            echo "Error: ep command not found in PATH"
+            exit 1
+          fi
+          echo "✓ ep command found"
+
+      - name: Test econprior --help
+        run: econprior --help
+
+      - name: Test ep --help
+        run: ep --help
+
+      - name: Test ep download --help
+        run: ep download --help
+
+      - name: Test ep fill --help
+        run: ep fill --help
+
+      - name: Test ep stats --help
+        run: ep stats --help
+
+      - name: Verify both commands work identically
+        run: |
+          econprior --help > econprior_output.txt
+          ep --help > ep_output.txt
+          if ! diff econprior_output.txt ep_output.txt; then
+            echo "Error: econprior and ep outputs differ"
+            exit 1
+          fi
+          echo "✓ Both commands produce identical output"
