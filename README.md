@@ -58,3 +58,19 @@ just download        # Download articles (wrapper around CLI)
 just fill            # Fill missing abstracts (wrapper around CLI)
 just stats           # Show database statistics (wrapper around CLI)
 ```
+
+## Testing & CI
+
+Every PR automatically runs:
+- ✅ **pytest tests** - All unit tests
+- ✅ **Formatting checks** - ruff format and ruff check
+- ✅ **Type checking** - ty check
+- ✅ **Installation test** - Verifies `uv tool install .` works
+- ✅ **CLI verification** - Tests both `ep` and `econprior` commands are available and functional
+
+Run the same checks locally before committing:
+```sh
+just test            # Run pytest
+just ok              # Run formatting and type checking
+just install         # Test installation
+```
