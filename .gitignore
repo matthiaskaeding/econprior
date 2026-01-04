@@ -38,3 +38,4 @@ htmlcov/
 *.db
 .uv-cache/
 data/articles.db-journal
+*.ipynb
