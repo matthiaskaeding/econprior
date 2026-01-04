@@ -27,9 +27,9 @@ jobs:
 
       - name: Run formatting and type checks
         run: |
-          uv run ruff format --check
-          uv run ruff check
-          uv run ty check
+          uv tool run ruff format --check
+          uv tool run ruff check
+          uv tool run ty check
 
       - name: Install as global tool
         run: uv tool install .
